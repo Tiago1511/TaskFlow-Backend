@@ -1,0 +1,13 @@
+services:
+  mysql:
+    container_name: 'event-mysql'
+    image: mysql
+    environment:
+      - 'MYSQL_DATABASE=TaskFlowDB'
+      - 'MYSQL_PASSWORD=htreniregw'
+      - 'MYSQL_ROOT_PASSWORD=jhtres1654AghfA'
+      - 'MYSQL_USER=taskUser'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
