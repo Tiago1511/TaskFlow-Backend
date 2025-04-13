@@ -39,3 +39,4 @@ build/
 .classpath
 /target/
 .factorypath
+.DS_Store
