@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.event</groupId>
 	<artifactId>TaskFlow</artifactId>
-	<version>${taskFlow.version}</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>TaskFlow</name>
 	<description>Gerenciador de Tarefas para Equipas</description>
@@ -33,7 +33,7 @@
 	</scm>
 	<properties>
 		<java.version>24</java.version>
-		<taskFlow.version>0.0.1-SNAPSHOT</taskFlow.version>
+		<taskFlow.version>0.0.2-SNAPSHOT</taskFlow.version>
 	</properties>
 	<dependencies>
 		<dependency>

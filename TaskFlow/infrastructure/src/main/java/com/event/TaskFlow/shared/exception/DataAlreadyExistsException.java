@@ -22,4 +22,12 @@ public class DataAlreadyExistsException extends TaskFlowException {
 
         return pb;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
 }
