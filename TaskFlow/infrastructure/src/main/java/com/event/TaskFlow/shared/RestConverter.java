@@ -2,13 +2,13 @@ package com.event.TaskFlow.shared;
 
 import java.io.Serializable;
 
-public interface RestConverter <T extends Serializable, P extends Serializable> {
+public interface RestConverter <R extends Serializable, E extends Serializable> {
 
-    default T mapToEntity (final P data) {
+    default E mapToEntity(final R rest) {
         throw new UnsupportedOperationException();
     }
 
-    default P mapToRest (final T entity) {
+    default R mapToRest(final E entity) {
         throw new UnsupportedOperationException();
     }
 }
