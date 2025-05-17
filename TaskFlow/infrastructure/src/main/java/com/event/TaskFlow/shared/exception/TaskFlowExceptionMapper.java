@@ -20,6 +20,7 @@ public class TaskFlowExceptionMapper {
         CoreErrorCode errorCode = CoreErrorCode.fromCode(coreException.error);
 
         return switch (errorCode) {
+            case EMPTY_DATA -> new EmptyDataException("Invalid data", coreException.getMessage());
             case DATA_ALREADY_EXISTS -> new DataAlreadyExistsException("Data already exists", coreException.getMessage());
             case RESOURCE_NOT_FOUND -> new BadRequestException("Resource not found", coreException.getMessage());
             default -> new TaskFlowException();

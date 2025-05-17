@@ -136,4 +136,22 @@ public class RestExceptionHandler {
         return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.BAD_REQUEST), "Malformed JSON request");
     }
 
+    /**
+     * Handles {@link EmptyDataException}, which is thrown when the incoming HTTP request body
+     * cannot be parsed or read correctly, typically due to malformed JSON, invalid syntax, or incorrect data types.
+     *
+     * <p>This usually occurs when the client sends an invalid or incomplete JSON payload that cannot be
+     * deserialized into the expected Java object.</p>
+     *
+     * <p>Returns an HTTP 400 (Bad Request) response with a descriptive error message indicating
+     * that the request body was malformed.</p>
+     *
+     * @param ex the {@link EmptyDataException} thrown when the request body is invalid
+     * @return a {@link TaskFlowResponse} indicating a bad request with details about the malformed JSON
+     */
+    @ExceptionHandler(EmptyDataException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public TaskFlowResponse<Void> handleEmptyDataException(EmptyDataException ex) {
+        return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.BAD_REQUEST), ex.getTitle() + "/n" + ex.getMessage());
+    }
 }
