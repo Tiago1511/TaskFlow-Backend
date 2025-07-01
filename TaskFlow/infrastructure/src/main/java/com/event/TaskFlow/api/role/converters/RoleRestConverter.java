@@ -9,7 +9,11 @@ public class RoleRestConverter implements RestConverter<RoleRest,Role> {
     @Override
     public Role mapToEntity(final RoleRest rest) {
 
-        return new Role(null, rest.getName(), rest.getDescription());
+        if (rest.getId() != null) {;
+            return new Role(rest.getId(), rest.getName(), rest.getDescription());
+        }
+
+        return new Role(rest.getName(), rest.getDescription());
     }
 
     @Override

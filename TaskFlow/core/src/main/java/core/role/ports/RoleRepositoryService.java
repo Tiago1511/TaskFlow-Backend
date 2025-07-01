@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 public interface RoleRepositoryService {
-    Collection<Role> getRole(String roleName);
+    Optional<Role> getRole(String roleName);
 
     Role saveRole(Role role);
 }

@@ -11,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Collections;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -33,7 +33,7 @@ class CreateRoleUseCaseImplTest {
     @DisplayName("Create role successfully")
     void createRole() {
         Role role = new Role(1L, "Admin", "Admin description");
-        when(roleRepositoryService.getRole("Admin")).thenReturn(Collections.emptyList());
+        when(roleRepositoryService.getRole("Admin")).thenReturn(Optional.empty());
         when(roleRepositoryService.saveRole(role)).thenReturn(role);
 
         Role result = roleService.createRole(role);
@@ -50,7 +50,7 @@ class CreateRoleUseCaseImplTest {
         Role role = new Role(1L, "Admin", "Admin description");
         Role existingRole = new Role(1L, "Admin", "Admin All Permission");
 
-        when(roleRepositoryService.getRole("Admin")).thenReturn(Collections.singletonList(existingRole));
+        when(roleRepositoryService.getRole("Admin")).thenReturn(Optional.of(existingRole));
 
         TaskFlowCoreException exception = assertThrows(TaskFlowCoreException.class, () -> {
             roleService.createRole(role);

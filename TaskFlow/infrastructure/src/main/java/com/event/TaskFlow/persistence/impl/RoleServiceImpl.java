@@ -6,7 +6,7 @@ import com.event.TaskFlow.persistence.repositories.RoleRepository;
 import core.role.domain.Role;
 import core.role.ports.RoleRepositoryService;
 
-import java.util.Collection;
+import java.util.Optional;
 
 public class RoleServiceImpl implements RoleRepositoryService {
 
@@ -20,8 +20,12 @@ public class RoleServiceImpl implements RoleRepositoryService {
     }
 
     @Override
-    public Collection<Role> getRole(String roleName) {
-        return roleRepository.findRoleEntitiesByName(roleName);
+    public Optional<Role> getRole(String roleName) {
+        Optional<RoleEntity> roleEntity =  roleRepository.findRoleEntitiesByName(roleName);
+        if (roleEntity.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(roleRepositoryConverter.mapToEntity(roleEntity.get()));
     }
 
     @Override

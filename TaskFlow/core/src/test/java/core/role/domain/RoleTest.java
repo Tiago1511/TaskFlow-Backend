@@ -118,4 +118,44 @@ class RoleTest {
         });
         Assertions.assertEquals("Description is invalid", exception.getMessage());
     }
+
+    @Test
+    @DisplayName("Equals Role")
+    void equalsRole() {
+        Role role2 = new Role(1L, "Admin", "All permission");
+        Assertions.assertEquals(role, role2);
+    }
+
+    @Test
+    @DisplayName("Not Equals Role")
+    void notEqualsRole() {
+        Role role2 = new Role(2L, "User", "Limited permission");
+        Assertions.assertNotEquals(role, role2);
+    }
+
+    @Test
+    @DisplayName("Not Equals Null")
+    void notEqualsNull() {
+        Assertions.assertNotEquals(null, role);
+    }
+
+    @Test
+    @DisplayName("Not Equals Different Class")
+    void notEqualsDifferentClass() {
+        Assertions.assertNotEquals(new Object(), role);
+    }
+
+    @Test
+    @DisplayName("Hash Code Role")
+    void hashCodeRole() {
+        Role role2 = new Role(1L, "Admin", "All permission");
+        Assertions.assertEquals(role.hashCode(), role2.hashCode());
+    }
+
+    @Test
+    @DisplayName("Hash Code Not Equals Role")
+    void hashCodeNotEqualsRole() {
+        Role role2 = new Role(2L, "User", "Limited permission");
+        Assertions.assertNotEquals(role.hashCode(), role2.hashCode());
+    }
 }
