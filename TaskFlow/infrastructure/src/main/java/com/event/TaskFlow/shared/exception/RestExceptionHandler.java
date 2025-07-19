@@ -152,6 +152,6 @@ public class RestExceptionHandler {
     @ExceptionHandler(EmptyDataException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public TaskFlowResponse<Void> handleEmptyDataException(EmptyDataException ex) {
-        return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.BAD_REQUEST), ex.getTitle() + "/n" + ex.getMessage());
+        return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.BAD_REQUEST), ex.getTitle() + "/n" + ex.getDetail());
     }
 }
