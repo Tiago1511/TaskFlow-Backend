@@ -65,7 +65,7 @@ public class RestExceptionHandler {
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public TaskFlowResponse<Void> handlerBadRequestException(BadRequestException e) {
-        return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.BAD_REQUEST), e.getTitle() + "/n" + e.getMessage());
+        return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.BAD_REQUEST), e.getTitle() + "/n" + e.getDetail());
     }
 
     /**
@@ -79,7 +79,7 @@ public class RestExceptionHandler {
     @ExceptionHandler(DataAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public TaskFlowResponse<Void> handlerDataAlreadyExistsException(DataAlreadyExistsException e) {
-        return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.UNPROCESSABLE_ENTITY), e.getTitle() + "/n" + e.getMessage());
+        return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.UNPROCESSABLE_ENTITY), e.getTitle() + "/n" + e.getDetail());
     }
 
     /**
