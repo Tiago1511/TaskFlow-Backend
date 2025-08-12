@@ -29,6 +29,8 @@ class CreateRoleUseCaseImplTest {
         MockitoAnnotations.initMocks(this);
     }
 
+    // NOTE: Unit tests
+
     @Test
     @DisplayName("Create role successfully")
     void createRole() {
@@ -61,4 +63,38 @@ class CreateRoleUseCaseImplTest {
 
         Assertions.assertEquals("This role already exists", exception.getMessage());
     }
+
+    @Test
+    @DisplayName("Fail to save role")
+    void failToSaveRole() {
+        Role role = new Role(1L, "Admin", "Admin description");
+        when(roleRepositoryService.getRole("Admin")).thenReturn(Optional.empty());
+        when(roleRepositoryService.saveRole(role)).thenThrow(new RuntimeException("Database error"));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            roleService.createRole(role);
+        });
+
+        verify(roleRepositoryService, times(1)).getRole("Admin");
+        verify(roleRepositoryService, times(1)).saveRole(role);
+
+        Assertions.assertEquals("Database error", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Fail to get role")
+    void failToGetRole() {
+        Role role = new Role(1L, "Admin", "Admin description");
+        when(roleRepositoryService.getRole("Admin")).thenThrow(new RuntimeException("Database error"));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            roleService.createRole(role);
+        });
+
+        verify(roleRepositoryService, times(1)).getRole("Admin");
+        verify(roleRepositoryService, times(0)).saveRole(any());
+
+        Assertions.assertEquals("Database error", exception.getMessage());
+    }
+
 }
