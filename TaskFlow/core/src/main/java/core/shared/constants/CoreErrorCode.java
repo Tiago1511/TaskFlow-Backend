@@ -10,7 +10,8 @@ public enum CoreErrorCode {
     DATA_ALREADY_EXISTS(422),
     RESOURCE_NOT_FOUND(404),
     UNKNOWN_ERROR(500),
-    BAD_REQUEST(400);
+    BAD_REQUEST(400),
+    INVALID_DATA(422);
 
     private final int code;
 

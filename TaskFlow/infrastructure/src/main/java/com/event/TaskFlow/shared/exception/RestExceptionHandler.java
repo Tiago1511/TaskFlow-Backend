@@ -132,4 +132,23 @@ public class RestExceptionHandler {
         return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.BAD_REQUEST), ex.getTitle() + "/n" + ex.getDetail());
     }
 
+    /**
+     * Handles {@link InvalidDataException}, which is thrown when the incoming HTTP request body
+     * contains invalid data that does not conform to the expected format or validation rules.
+     *
+     * <p>This typically occurs when the client sends data that fails validation checks, such as
+     * missing required fields or incorrect data types.</p>
+     *
+     * <p>Returns an HTTP 422 (Unprocessable Entity) response with a descriptive error message indicating
+     * that the provided data is invalid.</p>
+     *
+     * @param ex the {@link InvalidDataException} thrown when the request body contains invalid data
+     * @return a {@link TaskFlowResponse} indicating an unprocessable entity with details about the invalid data
+     */
+    @ExceptionHandler(InvalidDataException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public TaskFlowResponse<Void> handleInvalidDataException(InvalidDataException ex) {
+        return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.UNPROCESSABLE_ENTITY), ex.getTitle() + "/n" + ex.getDetail());
+    }
+
 }

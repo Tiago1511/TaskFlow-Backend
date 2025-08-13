@@ -23,6 +23,7 @@ public class TaskFlowExceptionMapper {
             case EMPTY_DATA -> new EmptyDataException("Invalid data ", coreException.getDetailMessage());
             case DATA_ALREADY_EXISTS -> new DataAlreadyExistsException("Data already exists", coreException.getDetailMessage());
             case RESOURCE_NOT_FOUND -> new BadRequestException("Resource not found", coreException.getDetailMessage());
+            case INVALID_DATA ->  new InvalidDataException("Invalid data", coreException.getDetailMessage());
             default -> new TaskFlowException();
         };
     }
