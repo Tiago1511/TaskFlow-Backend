@@ -132,22 +132,4 @@ public class RestExceptionHandler {
         return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.BAD_REQUEST), ex.getTitle() + "/n" + ex.getDetail());
     }
 
-
-    /**
-     * Handles {@link HttpMessageNotReadableException}, which is thrown when the incoming HTTP request body
-     * cannot be parsed or read correctly, typically due to malformed JSON or incorrect data types.
-     *
-     * <p>This commonly occurs when the client sends an invalid or incomplete JSON payload.</p>
-     *
-     * <p>Returns an HTTP 400 (Bad Request) response indicating that the request could not be interpreted.</p>
-     *
-     * @param ex the {@link HttpMessageNotReadableException} thrown
-     * @return a {@link TaskFlowResponse} with a message indicating malformed JSON and HTTP 400 status
-     */
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public TaskFlowResponse<Void> handleJsonParseError(HttpMessageNotReadableException ex) {
-        return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.BAD_REQUEST), "Malformed JSON request");
-    }
-
 }
