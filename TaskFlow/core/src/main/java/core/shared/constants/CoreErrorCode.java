@@ -5,6 +5,8 @@ package core.shared.constants;
  * Each value corresponds to a specific type of business error and maps to a numeric internal code.
  */
 public enum CoreErrorCode {
+
+    EMPTY_DATA(400),
     DATA_ALREADY_EXISTS(422),
     RESOURCE_NOT_FOUND(404),
     UNKNOWN_ERROR(500),

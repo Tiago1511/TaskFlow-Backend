@@ -12,29 +12,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class RestExceptionHandler {
 
-    /*@ExceptionHandler(TaskFlowException.class)
-    public ProblemDetail handlerTaskFlowException(TaskFlowException e) {
-        return e.toProblemDetail();
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ProblemDetail handlerMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        var fieldErrors = e.getFieldErrors().stream()
-                .map(f -> new FieldError(f.getObjectName(), f.getField(), f.getDefaultMessage()))
-                .toList();
-        var problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-        problemDetail.setTitle("Validation Error");
-        problemDetail.setProperty("invalid-field-value",fieldErrors);
-        return problemDetail;
-    }*/
-
-    /**
-     * Handler for {@link TaskFlowException}.
-     * This method catches exceptions of type {@link TaskFlowException} and returns a response with HTTP status 400 (Bad Request).
-     *
-     * @param e The {@link TaskFlowException} exception thrown.
-     * @return An instance of {@link TaskFlowResponse} containing error details.
-     */
     @ExceptionHandler(TaskFlowException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public TaskFlowResponse<Void> handlerTaskFlowException(TaskFlowException e) {
@@ -116,6 +93,43 @@ public class RestExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public TaskFlowResponse<Void> handleUnexpectedException(Exception ex) {
         return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR), "An unexpected error occurred");
+    }
+
+
+    /**
+     * Handles {@link HttpMessageNotReadableException}, which is thrown when the incoming HTTP request body
+     * cannot be parsed or read correctly, typically due to malformed JSON or incorrect data types.
+     *
+     * <p>This commonly occurs when the client sends an invalid or incomplete JSON payload.</p>
+     *
+     * <p>Returns an HTTP 400 (Bad Request) response indicating that the request could not be interpreted.</p>
+     *
+     * @param ex the {@link HttpMessageNotReadableException} thrown
+     * @return a {@link TaskFlowResponse} with a message indicating malformed JSON and HTTP 400 status
+     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public TaskFlowResponse<Void> handleJsonParseError(HttpMessageNotReadableException ex) {
+        return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.BAD_REQUEST), "Malformed JSON request");
+    }
+
+    /**
+     * Handles {@link EmptyDataException}, which is thrown when the incoming HTTP request body
+     * cannot be parsed or read correctly, typically due to malformed JSON, invalid syntax, or incorrect data types.
+     *
+     * <p>This usually occurs when the client sends an invalid or incomplete JSON payload that cannot be
+     * deserialized into the expected Java object.</p>
+     *
+     * <p>Returns an HTTP 400 (Bad Request) response with a descriptive error message indicating
+     * that the request body was malformed.</p>
+     *
+     * @param ex the {@link EmptyDataException} thrown when the request body is invalid
+     * @return a {@link TaskFlowResponse} indicating a bad request with details about the malformed JSON
+     */
+    @ExceptionHandler(EmptyDataException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public TaskFlowResponse<Void> handleEmptyDataException(EmptyDataException ex) {
+        return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.BAD_REQUEST), ex.getTitle() + "/n" + ex.getDetail());
     }
 
 
