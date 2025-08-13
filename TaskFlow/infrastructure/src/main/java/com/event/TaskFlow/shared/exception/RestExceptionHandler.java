@@ -12,29 +12,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class RestExceptionHandler {
 
-    /*@ExceptionHandler(TaskFlowException.class)
-    public ProblemDetail handlerTaskFlowException(TaskFlowException e) {
-        return e.toProblemDetail();
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ProblemDetail handlerMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        var fieldErrors = e.getFieldErrors().stream()
-                .map(f -> new FieldError(f.getObjectName(), f.getField(), f.getDefaultMessage()))
-                .toList();
-        var problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-        problemDetail.setTitle("Validation Error");
-        problemDetail.setProperty("invalid-field-value",fieldErrors);
-        return problemDetail;
-    }*/
-
-    /**
-     * Handler for {@link TaskFlowException}.
-     * This method catches exceptions of type {@link TaskFlowException} and returns a response with HTTP status 400 (Bad Request).
-     *
-     * @param e The {@link TaskFlowException} exception thrown.
-     * @return An instance of {@link TaskFlowResponse} containing error details.
-     */
     @ExceptionHandler(TaskFlowException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public TaskFlowResponse<Void> handlerTaskFlowException(TaskFlowException e) {
@@ -154,4 +131,23 @@ public class RestExceptionHandler {
     public TaskFlowResponse<Void> handleEmptyDataException(EmptyDataException ex) {
         return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.BAD_REQUEST), ex.getTitle() + "/n" + ex.getDetail());
     }
+
+
+    /**
+     * Handles {@link HttpMessageNotReadableException}, which is thrown when the incoming HTTP request body
+     * cannot be parsed or read correctly, typically due to malformed JSON or incorrect data types.
+     *
+     * <p>This commonly occurs when the client sends an invalid or incomplete JSON payload.</p>
+     *
+     * <p>Returns an HTTP 400 (Bad Request) response indicating that the request could not be interpreted.</p>
+     *
+     * @param ex the {@link HttpMessageNotReadableException} thrown
+     * @return a {@link TaskFlowResponse} with a message indicating malformed JSON and HTTP 400 status
+     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public TaskFlowResponse<Void> handleJsonParseError(HttpMessageNotReadableException ex) {
+        return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.BAD_REQUEST), "Malformed JSON request");
+    }
+
 }
