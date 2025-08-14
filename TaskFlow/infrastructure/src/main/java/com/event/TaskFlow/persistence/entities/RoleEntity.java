@@ -1,6 +1,8 @@
 package com.event.TaskFlow.persistence.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
 import java.io.Serializable;
 
 @Entity
@@ -12,9 +14,11 @@ public class RoleEntity implements Serializable {
     @SequenceGenerator(name = "roleSeq", sequenceName = "role_id_seq", allocationSize = 1)
     private Long id;
 
+    @NotBlank(message = "Role name cannot be blank")
     @Column(name = "NAME", nullable = false, unique = true)
     private String name;
 
+    @NotBlank(message = "Description cannot be blank")
     @Column(name = "DESCRIPTION", nullable = false)
     private String description;
 
