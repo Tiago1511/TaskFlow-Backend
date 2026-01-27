@@ -9,6 +9,7 @@ public class DataAlreadyExistsException extends TaskFlowException {
     private String title;
 
     public DataAlreadyExistsException(String title,String detail) {
+        super();
         this.detail = detail;
         this.title = title;
     }

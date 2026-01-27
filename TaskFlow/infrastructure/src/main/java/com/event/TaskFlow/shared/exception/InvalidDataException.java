@@ -9,6 +9,7 @@ public class InvalidDataException extends TaskFlowException {
     private String title;
 
     public InvalidDataException(String title,String detail) {
+        super();
         this.detail = detail;
         this.title = title;
     }

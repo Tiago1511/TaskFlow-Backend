@@ -91,11 +91,11 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id.equals(user.id) && username.equals(user.username) && email.equals(user.email) && password.equals(user.password);
+        return id.equals(user.id) && username.equals(user.username) && email.equals(user.email) && password.equals(user.password) && role.equals(user.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, email, password);
+        return Objects.hash(id, username, email, password, role);
     }
 }

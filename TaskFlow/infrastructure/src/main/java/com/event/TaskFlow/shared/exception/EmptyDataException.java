@@ -9,6 +9,7 @@ public class EmptyDataException extends TaskFlowException {
     private String title;
 
     public EmptyDataException(String title,String detail) {
+        super();
         this.detail = detail;
         this.title = title;
     }

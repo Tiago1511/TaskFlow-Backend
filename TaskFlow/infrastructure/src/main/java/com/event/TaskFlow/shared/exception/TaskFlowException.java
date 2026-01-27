@@ -5,6 +5,20 @@ import org.springframework.http.ProblemDetail;
 
 public class TaskFlowException extends RuntimeException {
 
+    private HttpStatus httpStatus;
+
+    public TaskFlowException(String s, HttpStatus httpStatus) {
+        super(s);
+        this.httpStatus = httpStatus == null ? HttpStatus.INTERNAL_SERVER_ERROR : httpStatus;
+    }
+
+    public TaskFlowException() {
+    }
+
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
+    }
+
     public ProblemDetail toProblemDetail() {
         var pb = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 
