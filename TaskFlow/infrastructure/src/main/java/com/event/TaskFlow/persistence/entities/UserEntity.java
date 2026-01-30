@@ -31,7 +31,7 @@ public class UserEntity implements Serializable {
     @AttributeOverride(name = "email", column = @Column(name = "EMAIL", nullable = false))
     private EmailEntity email;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ROLE_ID", nullable = false) //Foreign key to RoleEntity
     private RoleEntity role;
 

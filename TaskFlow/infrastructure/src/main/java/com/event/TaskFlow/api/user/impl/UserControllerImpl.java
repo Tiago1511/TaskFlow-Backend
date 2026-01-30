@@ -11,12 +11,10 @@ import com.event.TaskFlow.shared.exception.TaskFlowExceptionMapper;
 import core.shared.exception.TaskFlowCoreException;
 import core.user.domain.User;
 import core.user.useCase.CreateUserUseCase;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(RestConstants.APPLICATION_NAME + RestConstants.API_VERSION + RestConstants.RESOURCE_USER)
@@ -33,7 +31,7 @@ public class UserControllerImpl implements UserController {
     @Override
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public TaskFlowResponse<UserRest> createUser(UserRest userRest) throws TaskFlowException {
+    public TaskFlowResponse<UserRest> createUser(@Valid @RequestBody UserRest userRest) throws TaskFlowException {
         try {
             User user = createUserUseCase.createUser(userRestConverter.mapToEntity(userRest));
             return new TaskFlowResponse<>(CommonConstants.SUCCESS, userRestConverter.mapToRest(user),
