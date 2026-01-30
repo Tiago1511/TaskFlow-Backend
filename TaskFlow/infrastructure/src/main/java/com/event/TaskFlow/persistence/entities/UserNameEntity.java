@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class UserNameEntity implements Serializable {
+public class UserNameEntity  {
 
     @NotBlank(message = "Username cannot be blank")
     @Column(nullable = false, unique = true)

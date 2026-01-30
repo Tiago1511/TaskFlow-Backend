@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class PasswordEntity implements Serializable {
+public class PasswordEntity {
 
     @NotBlank(message = "Password cannot be blank")
     private String password;

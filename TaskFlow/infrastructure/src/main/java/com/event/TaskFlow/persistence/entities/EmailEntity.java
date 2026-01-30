@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class EmailEntity implements Serializable {
+public class EmailEntity {
 
     @Email(message = "Invalid email format")
     @NotBlank(message = "Email cannot be blank")

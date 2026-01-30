@@ -2,7 +2,7 @@ package com.event.TaskFlow.api;
 
 import java.io.Serializable;
 
-public class TaskFlowResponse<T> implements Serializable {
+public class TaskFlowResponse<T>  {
 
     private String status;
     private String code;

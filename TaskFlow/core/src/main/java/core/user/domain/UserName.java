@@ -6,7 +6,7 @@ import core.shared.exception.TaskFlowCoreException;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class UserName implements Serializable{
+public class UserName{
 
     private String userName;
     private static final String regexPattern = "^[a-zA-Z0-9_]{1,50}$";

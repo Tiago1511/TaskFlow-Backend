@@ -6,7 +6,7 @@ import core.shared.exception.TaskFlowCoreException;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Role implements Serializable {
+public class Role {
 
     private Long id;
     private String name;

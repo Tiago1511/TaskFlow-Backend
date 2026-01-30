@@ -6,7 +6,7 @@ import core.shared.exception.TaskFlowCoreException;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Password implements Serializable {
+public class Password  {
 
     private String password;
     private static final String regexPattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,100}$";

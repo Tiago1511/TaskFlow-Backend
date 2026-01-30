@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RoleRest implements Serializable {
+public class RoleRest {
 
     @NotBlank
     private String name;

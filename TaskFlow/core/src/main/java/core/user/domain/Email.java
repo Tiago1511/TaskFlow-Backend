@@ -6,7 +6,7 @@ import core.shared.exception.TaskFlowCoreException;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Email implements Serializable {
+public class Email {
 
     private String email;
     private static final String regexPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";

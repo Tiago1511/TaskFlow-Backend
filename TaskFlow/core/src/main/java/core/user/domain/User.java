@@ -7,7 +7,7 @@ import core.shared.exception.TaskFlowCoreException;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class User implements Serializable {
+public class User {
 
     private Long id;
     private UserName username;
