@@ -3,7 +3,6 @@ package core.role.domain;
 import core.shared.constants.CoreErrorCode;
 import core.shared.exception.TaskFlowCoreException;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 public class Role {

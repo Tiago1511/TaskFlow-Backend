@@ -1,7 +1,5 @@
 package com.event.TaskFlow.shared;
 
-import java.io.Serializable;
-
 public interface RestConverter <R , E > {
 
     default E mapToEntity(final R rest) {

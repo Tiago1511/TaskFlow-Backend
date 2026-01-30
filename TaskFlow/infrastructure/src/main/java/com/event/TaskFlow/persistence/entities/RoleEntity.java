@@ -3,7 +3,6 @@ package com.event.TaskFlow.persistence.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity

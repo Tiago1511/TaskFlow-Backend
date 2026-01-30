@@ -1,7 +1,5 @@
 package com.event.TaskFlow.api;
 
-import java.io.Serializable;
-
 public class TaskFlowResponse<T>  {
 
     private String status;

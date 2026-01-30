@@ -1,10 +1,8 @@
 package com.event.TaskFlow.persistence.entities;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
