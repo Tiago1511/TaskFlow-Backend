@@ -11,7 +11,6 @@ public class RestConstants {
 
     //Resource Role
     public static final String RESOURCE_ROLE = "/role";
-    public static final String GET_STANDARD_ROLES = "/standard";
 
     //Resource Role
     public static final String RESOURCE_USER = "/user";

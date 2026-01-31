@@ -1,7 +1,6 @@
 package com.event.TaskFlow.persistence.entities;
 
 
-import core.role.domain.Role;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 
@@ -31,14 +30,14 @@ public class UserEntity  {
     @AttributeOverride(name = "email", column = @Column(name = "EMAIL", nullable = false))
     private EmailEntity email;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "ROLE", nullable = false)
-    private Role role;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "ROLE_ID", nullable = false) //Foreign key to RoleEntity
+    private RoleEntity role;
 
     protected UserEntity() {
     }
 
-    public UserEntity(Long id, UserNameEntity username, PasswordEntity password, EmailEntity email, Role role) {
+    public UserEntity(Long id, UserNameEntity username, PasswordEntity password, EmailEntity email, RoleEntity role) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -62,7 +61,7 @@ public class UserEntity  {
         return email;
     }
 
-    public Role getRole() {
+    public RoleEntity getRole() {
         return role;
     }
 

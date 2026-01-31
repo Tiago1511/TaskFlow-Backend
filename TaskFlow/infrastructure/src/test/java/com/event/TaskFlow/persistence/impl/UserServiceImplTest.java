@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class UserServiceGetRolesUseCaseImplTest {
+class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
@@ -42,8 +42,8 @@ class UserServiceGetRolesUseCaseImplTest {
     @Test
     @DisplayName("Save user")
     void saveUser() {
-        User user = new User(1L, new UserName("User"), new Email("test@test.com"), new Password("Password12@!"), Role.ADMIN);
-        UserEntity entity = new UserEntity(1L, new UserNameEntity("User"), new PasswordEntity("Password12@!"), new EmailEntity("test@test.com"), Role.ADMIN);
+        User user = new User(1L, new UserName("User"), new Email("test@test.com"), new Password("Password12@!"), new Role(1L,"Admin","Full access"));
+        UserEntity entity = new UserEntity(1L, new UserNameEntity("User"), new PasswordEntity("Password12@!"), new EmailEntity("test@test.com"), new RoleEntity(1L,"Admin","Full access"));
 
         when(userRepositoryConverter.mapToTable(user)).thenReturn(entity);
         when(userRepository.save(entity)).thenReturn(entity);
@@ -62,8 +62,8 @@ class UserServiceGetRolesUseCaseImplTest {
     @Test
     @DisplayName("Find User")
     void findByEmailOrUserName() {
-        User user = new User(1L, new UserName("User"), new Email("test@test.com"), new Password("Password12@!"), Role.ADMIN);
-        UserEntity entity = new UserEntity(1L, new UserNameEntity("User"), new PasswordEntity("Password12@!"), new EmailEntity("test@test.com"), Role.ADMIN);
+        User user = new User(1L, new UserName("User"), new Email("test@test.com"), new Password("Password12@!"), new Role(1L,"Admin","Full access"));
+        UserEntity entity = new UserEntity(1L, new UserNameEntity("User"), new PasswordEntity("Password12@!"), new EmailEntity("test@test.com"), new RoleEntity(1L,"Admin","Full access"));
 
         when(userRepository.findByEmail_EmailOrUsername_UserName(user.getEmail().getEmail(), user.getUsername().getUserName()))
                 .thenReturn(List.of(entity));

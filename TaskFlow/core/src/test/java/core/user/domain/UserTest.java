@@ -5,7 +5,8 @@ import core.shared.exception.TaskFlowCoreException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class UserTest {
@@ -16,7 +17,7 @@ class UserTest {
         Email email = new Email("email@email.com");
         Password password = new Password("StrongPass123!");
         UserName userName = new UserName("username");
-        Role role = Role.ADMIN;
+        Role role = new Role("role", "description");
         User user = new User(userName, email, password, role);
         assertEquals(userName, user.getUsername());
         assertEquals(email, user.getEmail());
@@ -30,7 +31,7 @@ class UserTest {
         Email email = new Email("email@email.com");
         Password password = new Password("StrongPass123!");
         UserName userName = new UserName("username");
-        Role role = Role.ADMIN;
+        Role role = new Role("role", "description");
         User user =new User(id,userName, email, password, role);
         assertEquals(userName, user.getUsername());
         assertEquals(email, user.getEmail());
@@ -44,7 +45,7 @@ class UserTest {
         Email email = new Email("email@email.com");
         Password password = new Password("StrongPass123!");
         UserName userName = new UserName("username");
-        Role role = Role.ADMIN;
+        Role role = new Role("role", "description");
         User user = new User(userName, email, password, role);
         user.setId(id);
         assertEquals(id, user.getId());
@@ -57,7 +58,7 @@ class UserTest {
         Email email = new Email("email@email.com");
         Password password = new Password("StrongPass123!");
         UserName userName = new UserName("username");
-        Role role = Role.ADMIN;
+        Role role = new Role("role", "description");
         User user = new User(userName, email, password, role);
         TaskFlowCoreException exception = assertThrows(TaskFlowCoreException.class, () -> {
             user.setId(null);
@@ -72,7 +73,7 @@ class UserTest {
         Email email = new Email("email@email.com");
         Password password = new Password("StrongPass123!");
         UserName userName = new UserName("username");
-        Role role = Role.ADMIN;
+        Role role = new Role("role", "description");
         TaskFlowCoreException exception = assertThrows(TaskFlowCoreException.class, () -> {
             new User(null, email, password, role);
         });
@@ -84,7 +85,7 @@ class UserTest {
     void testUserCreationWithNullEmail() {
         Password password = new Password("StrongPass123!");
         UserName userName = new UserName("username");
-        Role role = Role.ADMIN;
+        Role role = new Role("role", "description");
         TaskFlowCoreException exception = assertThrows(TaskFlowCoreException.class, () -> {
             new User(userName, null, password, role);
         });
@@ -96,7 +97,7 @@ class UserTest {
     void testUserCreationWithNullPassword() {
         Email email = new Email("email@email.com");
         UserName userName = new UserName("username");
-        Role role = Role.ADMIN;
+        Role role = new Role("role", "description");
         TaskFlowCoreException exception = assertThrows(TaskFlowCoreException.class, () -> {
             new User(userName, email, null, role);
         });
@@ -130,7 +131,7 @@ class UserTest {
         Email email = new Email("email@email.com");
         Password password = new Password("StrongPass123!");
         UserName userName = new UserName("username");
-        Role role = Role.ADMIN;
+        Role role = new Role("role", "description");
         TaskFlowCoreException exception = assertThrows(TaskFlowCoreException.class, () -> {
             new User(-1L, userName, email, password, role);
         });
@@ -143,7 +144,7 @@ class UserTest {
         Email email = new Email("email@email.com");
         Password password = new Password("StrongPass123!");
         UserName userName = new UserName("username");
-        Role role = Role.ADMIN;
+        Role role = new Role("role", "description");
         User user = new User(userName, email, password, role);
         UserName newUserName = new UserName("newUsername");
         user.setUsername(newUserName);
@@ -156,7 +157,7 @@ class UserTest {
         Email email = new Email("email@email.com");
         Password password = new Password("StrongPass123!");
         UserName userName = new UserName("username");
-        Role role = Role.ADMIN;
+        Role role = new Role("role", "description");
         User user = new User(userName, email, password, role);
         TaskFlowCoreException exception = assertThrows(TaskFlowCoreException.class, () -> {
             user.setUsername(null);
@@ -170,7 +171,7 @@ class UserTest {
         UserName userName = new UserName("username");
         Password password = new Password("StrongPass123!");
         Email email = new Email("email@email.com");
-        Role role = Role.ADMIN;
+        Role role = new Role("role", "description");
         User user = new User(userName, email, password, role);
         Email newEmail = new Email("newEmail@email.com");
         user.setEmail(newEmail);
@@ -184,7 +185,7 @@ class UserTest {
         UserName userName = new UserName("username");
         Password password = new Password("StrongPass123!");
         Email email = new Email("email@email.com");
-        Role role = Role.ADMIN;
+        Role role = new Role("role", "description");
         User user = new User(userName, email, password, role);
         TaskFlowCoreException exception = assertThrows(TaskFlowCoreException.class, () -> {
             user.setEmail(null);
@@ -198,7 +199,7 @@ class UserTest {
         UserName userName = new UserName("username");
         Email email = new Email("email@email.com");
         Password password = new Password("StrongPass123!");
-        Role role = Role.ADMIN;
+        Role role = new Role("role", "description");
         User user = new User(userName, email, password, role);
         Password newPassword = new Password("NewStrongPass123!");
         user.setPassword(newPassword);
@@ -211,7 +212,7 @@ class UserTest {
         UserName userName = new UserName("username");
         Email email = new Email("email@email.com");
         Password password = new Password("StrongPass123!");
-        Role role = Role.ADMIN;
+        Role role = new Role("role", "description");
         User user = new User(userName, email, password, role);
         TaskFlowCoreException exception = assertThrows(TaskFlowCoreException.class, () -> {
             user.setPassword(null);

@@ -12,9 +12,17 @@ public class RoleRest {
     @NotBlank
     private String description;
 
+    private Long id;
+
     public RoleRest() {}
 
     public RoleRest(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public RoleRest(Long id, String name, String description) {
+        this.id = id;
         this.name = name;
         this.description = description;
     }
@@ -25,5 +33,9 @@ public class RoleRest {
 
     public String getDescription() {
         return description;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
