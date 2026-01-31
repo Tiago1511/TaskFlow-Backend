@@ -14,6 +14,20 @@ public class Password  {
         setPassword(password);
     }
 
+    private Password(String encodedPassword, boolean encoded) {
+        this.password = encodedPassword;
+    }
+
+    public static Password fromEncoded(String encodedPassword) {
+        if (encodedPassword == null || encodedPassword.isBlank()) {
+            throw new TaskFlowCoreException(
+                    "Encoded password cannot be empty",
+                    CoreErrorCode.EMPTY_DATA.getCode()
+            );
+        }
+        return new Password(encodedPassword, true);
+    }
+
     public String getPassword() {
         return password;
     }

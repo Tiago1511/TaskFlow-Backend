@@ -7,6 +7,7 @@ import core.user.domain.Email;
 import core.user.domain.Password;
 import core.user.domain.User;
 import core.user.domain.UserName;
+import core.user.ports.EncoderService;
 import core.user.ports.UserRepositoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -28,6 +29,9 @@ class CreateUserUseCaseImplTest {
     @Mock
     private RoleRepositoryService roleRepositoryService;
 
+    @Mock
+    private EncoderService encoderService;
+
     @InjectMocks
     private CreateUserUseCaseImpl createUserUseCase;
 
@@ -47,11 +51,14 @@ class CreateUserUseCaseImplTest {
         when(userRepositoryService.findByEmailOrUserName("email@test.com", "teste")).thenReturn(java.util.Collections.emptyList());
         when(userRepositoryService.saveUser(user)).thenReturn(user);
         when(roleRepositoryService.getRole(this.role.getName())).thenReturn(java.util.Optional.of(this.role));
+        when(encoderService.encode("Password1!")).thenReturn("bgrenbt534ygetnri0!bgterb.");
         User result = createUserUseCase.createUser(user);
         assertNotNull(result);
         assertEquals(user.getId(), result.getId());
         verify(userRepositoryService, times(1)).findByEmailOrUserName("email@test.com", "teste");
         verify(userRepositoryService, times(1)).saveUser(user);
+        verify(roleRepositoryService, times(1)).getRole(this.role.getName());
+        verify(encoderService, times(1)).encode("Password1!");
     }
 
     @Test
@@ -193,11 +200,14 @@ class CreateUserUseCaseImplTest {
         when(userRepositoryService.findByEmailOrUserName("email@test.com", "teste")).thenReturn(java.util.Collections.emptyList());
         when(roleRepositoryService.getRole(this.role.getName())).thenReturn(java.util.Optional.of(this.role));
         when(userRepositoryService.saveUser(user)).thenThrow(new RuntimeException("Database error"));
+        when(encoderService.encode("Password1!")).thenReturn("bgrenbt534ygetnri0!bgterb.");
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             createUserUseCase.createUser(user);
         });
         verify(userRepositoryService, times(1)).findByEmailOrUserName("email@test.com", "teste");
         verify(userRepositoryService, times(1)).saveUser(user);
+        verify(roleRepositoryService, times(1)).getRole(this.role.getName());
+        verify(encoderService, times(1)).encode("Password1!");
         assertEquals("Database error", exception.getMessage());
     }
 
@@ -239,6 +249,6 @@ class CreateUserUseCaseImplTest {
     void hashCodeUsers() {
         User user1 = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.role);
 
-        assertEquals(Objects.hash(user1.getId(), user1.getUsername(), user1.getEmail(), user1.getPassword(), user1.getRole()), user1.hashCode());
+        assertEquals(Objects.hash(user1.getId(), user1.getUsername(), user1.getEmail(), user1.getRole()), user1.hashCode());
     }
 }

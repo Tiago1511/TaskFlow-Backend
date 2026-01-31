@@ -1,10 +1,12 @@
 package com.event.TaskFlow.persistence.impl;
 
 import com.event.TaskFlow.persistence.converters.UserRepositoryConverter;
+import com.event.TaskFlow.persistence.entities.PasswordEntity;
 import com.event.TaskFlow.persistence.entities.UserEntity;
 import com.event.TaskFlow.persistence.repositories.UserRepository;
 import com.event.TaskFlow.shared.exception.TaskFlowException;
 import core.user.domain.User;
+import core.user.ports.EncoderService;
 import core.user.ports.UserRepositoryService;
 import org.springframework.http.HttpStatus;
 

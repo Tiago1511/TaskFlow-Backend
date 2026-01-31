@@ -22,6 +22,6 @@ public class UserRepositoryConverter implements RepositoryConverter<UserEntity, 
 
     @Override
     public User mapToEntity(final UserEntity entityObject) {
-        return new User(entityObject.getId(), new UserName(entityObject.getUsername().getUserName()), new Email(entityObject.getEmail().getEmail()), new Password(entityObject.getPassword().getPassword()), roleRepositoryConverter.mapToEntity(entityObject.getRole()));
+        return new User(entityObject.getId(), new UserName(entityObject.getUsername().getUserName()), new Email(entityObject.getEmail().getEmail()), Password.fromEncoded(entityObject.getPassword().getPassword()), roleRepositoryConverter.mapToEntity(entityObject.getRole()));
     }
 }

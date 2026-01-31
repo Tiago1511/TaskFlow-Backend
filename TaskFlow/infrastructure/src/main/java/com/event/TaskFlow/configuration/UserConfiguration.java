@@ -11,6 +11,7 @@ import core.user.useCase.CreateUserUseCaseImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class UserConfiguration {
@@ -20,6 +21,9 @@ public class UserConfiguration {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private BCryptEncoderService passwordEncoder;
 
     @Bean(name = "userRoleRepositoryConverter")
     public RoleRepositoryConverter roleRepositoryConverter() {
@@ -48,6 +52,6 @@ public class UserConfiguration {
 
     @Bean
     public CreateUserUseCaseImpl createUserUseCase() {
-        return new CreateUserUseCaseImpl(userService(), roleService());
+        return new CreateUserUseCaseImpl(userService(), roleService(), passwordEncoder);
     }
 }
