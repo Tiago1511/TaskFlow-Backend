@@ -1,65 +1,29 @@
 package core.role.domain;
 
-import core.shared.constants.CoreErrorCode;
-import core.shared.exception.TaskFlowCoreException;
+public enum Role {
 
-import java.util.Objects;
+    ADMIN("Admin", "All permissions", true),
+    PRODUCT_OWNER("Product Owner", "Create project and organize tasks", false),
+    MEMBER("Member", "Work on assigned tasks", false);
 
-public class Role {
-
-    private Long id;
-    private String name;
-    private String description;
-
-    public Role(Long id, String name, String description) {
-        setId(id);
-        setName(name);
-        setDescription(description);
-    }
-
-    public Role( String name, String description) {
-        setName(name);
-        setDescription(description);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        if (id == null) throw new TaskFlowCoreException("ID is invalid", CoreErrorCode.EMPTY_DATA.getCode());;
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-
-        if(description == null || description.isBlank())  throw new TaskFlowCoreException("Description is invalid", CoreErrorCode.EMPTY_DATA.getCode());
-
+    private final String name;
+    private final String description;
+    private final Boolean isAdmin;
+    Role (String name, String description, Boolean isAdmin) {
+        this.name = name;
         this.description = description;
+        this.isAdmin = isAdmin;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        if(name == null || name.isBlank()) throw new TaskFlowCoreException("Name is invalid", CoreErrorCode.EMPTY_DATA.getCode());;
-        this.name = name;
+    public String getDescription() {
+        return description;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Role role = (Role) o;
-        return Objects.equals(id, role.id) && Objects.equals(name, role.name) && Objects.equals(description, role.description);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description);
+    public Boolean getAdmin() {
+        return isAdmin;
     }
 }

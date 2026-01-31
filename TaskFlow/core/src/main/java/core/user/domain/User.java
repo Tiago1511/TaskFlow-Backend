@@ -78,11 +78,11 @@ public class User {
         return role;
     }
 
-    public void setRole(Role role) {
-        if (role == null) {
+    public void setRole(Role roles) {
+        if (roles == null) {
             throw new TaskFlowCoreException("Role cannot be empty", CoreErrorCode.EMPTY_DATA.getCode());
         }
-        this.role = role;
+        this.role = roles;
     }
 
     @Override

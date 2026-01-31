@@ -2,7 +2,6 @@ package com.event.TaskFlow.persistence.converters;
 
 import com.event.TaskFlow.persistence.entities.*;
 import core.role.domain.Role;
-import core.shared.exception.TaskFlowCoreException;
 import core.user.domain.Email;
 import core.user.domain.Password;
 import core.user.domain.User;
@@ -18,28 +17,26 @@ class UserRepositoryConverterTest {
 
     private UserRepositoryConverter userRepositoryConverter;
 
-    private RoleRepositoryConverter roleRepositoryConverter;
 
     @BeforeEach
-    void setUp() {
-        roleRepositoryConverter = new RoleRepositoryConverter();
-        userRepositoryConverter = new UserRepositoryConverter(roleRepositoryConverter);
+    void setUp() {;
+        userRepositoryConverter = new UserRepositoryConverter();
     }
 
     @Test
     @DisplayName("Converte User to UserEntity")
     void mapToTable() {
-        UserEntity expected = new UserEntity(1L, new UserNameEntity("User"), new PasswordEntity("Password123!"), new EmailEntity("test@test.com"), new RoleEntity(1L, "Admin", "Full access"));
-        User user = new User(1L, new UserName("User"), new Email("test@test.com"), new Password("Password123!"), new Role(1L, "Admin", "Full access"));
-         UserEntity userResult = userRepositoryConverter.mapToTable(user);
+        UserEntity expected = new UserEntity(1L, new UserNameEntity("User"), new PasswordEntity("Password123!"), new EmailEntity("test@test.com"), Role.ADMIN);
+        User user = new User(1L, new UserName("User"), new Email("test@test.com"), new Password("Password123!"), Role.ADMIN);
+        UserEntity userResult = userRepositoryConverter.mapToTable(user);
         assertEquals(expected, userResult);
     }
 
     @Test
     @DisplayName("Converte UserEntity to User")
     void mapToEntity() {
-        User expected = new User(1L, new UserName("User"), new Email("test@test.com"), new Password("Password123!"), new Role(1L, "Admin", "Full access"));
-        UserEntity userEntity = new UserEntity(1L, new UserNameEntity("User"), new PasswordEntity("Password123!"), new EmailEntity("test@test.com"), new RoleEntity(1L, "Admin", "Full access"));
+        User expected = new User(1L, new UserName("User"), new Email("test@test.com"), new Password("Password123!"), Role.ADMIN);
+        UserEntity userEntity = new UserEntity(1L, new UserNameEntity("User"), new PasswordEntity("Password123!"), new EmailEntity("test@test.com"), Role.ADMIN);
         User userResult = userRepositoryConverter.mapToEntity(userEntity);
         assertEquals(expected, userResult);
     }

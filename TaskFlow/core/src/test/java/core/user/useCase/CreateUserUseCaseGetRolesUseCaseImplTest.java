@@ -1,7 +1,6 @@
 package core.user.useCase;
 
 import core.role.domain.Role;
-import core.role.ports.RoleRepositoryService;
 import core.shared.exception.TaskFlowCoreException;
 import core.user.domain.Email;
 import core.user.domain.Password;
@@ -20,18 +19,15 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class CreateUserUseCaseImplTest {
+class CreateUserUseCaseGetRolesUseCaseImplTest {
 
     @Mock
     private UserRepositoryService userRepositoryService;
 
-    @Mock
-    private RoleRepositoryService roleRepositoryService;
-
     @InjectMocks
     private CreateUserUseCaseImpl createUserUseCase;
 
-    private final Role role = new Role(1L, "User", "Default user role");
+    private final Role roles = Role.ADMIN;
 
     @BeforeEach
     void setUp() {
@@ -43,10 +39,9 @@ class CreateUserUseCaseImplTest {
     @Test
     @DisplayName("Create user successfully")
     void createUser() {
-        User user = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.role);
+        User user = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.roles);
         when(userRepositoryService.findByEmailOrUserName("email@test.com", "teste")).thenReturn(java.util.Collections.emptyList());
         when(userRepositoryService.saveUser(user)).thenReturn(user);
-        when(roleRepositoryService.getRole(this.role.getName())).thenReturn(java.util.Optional.of(this.role));
         User result = createUserUseCase.createUser(user);
         assertNotNull(result);
         assertEquals(user.getId(), result.getId());
@@ -57,7 +52,7 @@ class CreateUserUseCaseImplTest {
     @Test
     @DisplayName("User with email or username already exists")
     void userAlreadyExists() {
-        User user = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.role);
+        User user = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.roles);
         when(userRepositoryService.findByEmailOrUserName("email@test.com", "teste")).thenReturn(java.util.Collections.singletonList(user));
         Exception exception = assertThrows(TaskFlowCoreException.class, () -> {
             createUserUseCase.createUser(user);
@@ -67,7 +62,6 @@ class CreateUserUseCaseImplTest {
         assertTrue(actualMessage.contains(expectedMessage));
         verify(userRepositoryService, times(1)).findByEmailOrUserName("email@test.com", "teste");
         verify(userRepositoryService, times(0)).saveUser(any());
-        verify(roleRepositoryService, times(0)).getRole(this.role.getName());
     }
 
     @Test
@@ -75,70 +69,65 @@ class CreateUserUseCaseImplTest {
     void createUserWithInvalidPassword() {
 
         Exception exception = assertThrows(TaskFlowCoreException.class, () -> {
-            createUserUseCase.createUser(new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Passw!"), this.role));
+            createUserUseCase.createUser(new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Passw!"), this.roles));
         });
         String expectedMessage = "Password must be between 8 and 100 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
         verify(userRepositoryService, times(0)).findByEmailOrUserName("email@test.com", "teste");
         verify(userRepositoryService, times(0)).saveUser(any());
-        verify(roleRepositoryService, times(0)).getRole(this.role.getName());
     }
 
     @Test
     @DisplayName("Create user with empty username")
     void createUserWithEmptyUsername() {
         Exception exception = assertThrows(TaskFlowCoreException.class, () -> {
-            createUserUseCase.createUser(new User(1L, null, new Email("email@test.com"), new Password("Password1!"), this.role));
+            createUserUseCase.createUser(new User(1L, null, new Email("email@test.com"), new Password("Password1!"), this.roles));
         });
         String expectedMessage = "User name cannot be empty";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
         verify(userRepositoryService, times(0)).findByEmailOrUserName("email@test.com", null);
         verify(userRepositoryService, times(0)).saveUser(any());
-        verify(roleRepositoryService, times(0)).getRole(this.role.getName());
     }
 
     @Test
     @DisplayName("Create user with empty email")
     void createUserWithEmptyEmail() {
         Exception exception = assertThrows(TaskFlowCoreException.class, () -> {
-            createUserUseCase.createUser(new User(1L, new UserName("teste"), null, new Password("Password1!"), this.role));
+            createUserUseCase.createUser(new User(1L, new UserName("teste"), null, new Password("Password1!"), this.roles));
         });
         String expectedMessage = "Email cannot be empty";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
         verify(userRepositoryService, times(0)).findByEmailOrUserName(null, "teste");
         verify(userRepositoryService, times(0)).saveUser(any());
-        verify(roleRepositoryService, times(0)).getRole(this.role.getName());
     }
 
     @Test
     @DisplayName("Create user with invalid email format")
     void createUserWithInvalidEmailFormat() {
         Exception exception = assertThrows(TaskFlowCoreException.class, () -> {
-            createUserUseCase.createUser(new User(1L, new UserName("teste"), new Email("invalid-email"), new Password("Password1!"), this.role));
+            createUserUseCase.createUser(new User(1L, new UserName("teste"), new Email("invalid-email"), new Password("Password1!"), this.roles));
         });
         String expectedMessage = "Email format is invalid";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
         verify(userRepositoryService, times(0)).findByEmailOrUserName("invalid-email", "teste");
         verify(userRepositoryService, times(0)).saveUser(any());
-        verify(roleRepositoryService, times(0)).getRole(this.role.getName());
     }
 
     @Test
     @DisplayName("Create user with empty password")
     void createUserWithEmptyPassword() {
         Exception exception = assertThrows(Exception.class, () -> {
-            createUserUseCase.createUser(new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Passwo"), this.role));
+            createUserUseCase.createUser(new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Passwo"), this.roles));
         });
         String expectedMessage = "Password must be between 8 and 100 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
         verify(userRepositoryService, times(0)).findByEmailOrUserName("email@test.com", "teste");
         verify(userRepositoryService, times(0)).saveUser(any());
-        verify(roleRepositoryService, times(0)).getRole(this.role.getName());
     }
 
     @Test
@@ -152,7 +141,6 @@ class CreateUserUseCaseImplTest {
         assertTrue(actualMessage.contains(expectedMessage));
         verify(userRepositoryService, times(0)).findByEmailOrUserName("email@test.com", "teste");
         verify(userRepositoryService, times(0)).saveUser(any());
-        verify(roleRepositoryService, times(0)).getRole(this.role.getName());
     }
 
     @Test
@@ -166,32 +154,13 @@ class CreateUserUseCaseImplTest {
         assertTrue(actualMessage.contains(expectedMessage));
         verify(userRepositoryService, times(0)).findByEmailOrUserName("email@test.com", "teste");
         verify(userRepositoryService, times(0)).saveUser(any());
-        verify(roleRepositoryService, times(0)).getRole(this.role.getName());
-    }
-
-    @Test
-    @DisplayName("Role not found")
-    void roleNotFound() {
-        User user = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.role);
-        when(userRepositoryService.findByEmailOrUserName("email@test.com", "teste")).thenReturn(java.util.Collections.emptyList());
-        when(roleRepositoryService.getRole("User")).thenReturn(java.util.Optional.empty());
-        Exception exception = assertThrows(TaskFlowCoreException.class, () -> {
-            createUserUseCase.createUser(user);
-        });
-        String expectedMessage = "Role not found";
-        String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains(expectedMessage));
-        verify(userRepositoryService, times(1)).findByEmailOrUserName("email@test.com", "teste");
-        verify(roleRepositoryService, times(1)).getRole(this.role.getName());
-        verify(userRepositoryService, times(0)).saveUser(any());
     }
 
     @Test
     @DisplayName("Fail to save user")
     void failToSaveUser() {
-        User user = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.role);
+        User user = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.roles);
         when(userRepositoryService.findByEmailOrUserName("email@test.com", "teste")).thenReturn(java.util.Collections.emptyList());
-        when(roleRepositoryService.getRole(this.role.getName())).thenReturn(java.util.Optional.of(this.role));
         when(userRepositoryService.saveUser(user)).thenThrow(new RuntimeException("Database error"));
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             createUserUseCase.createUser(user);
@@ -204,8 +173,8 @@ class CreateUserUseCaseImplTest {
     @Test
     @DisplayName("Compare equals users")
     void compareUsers() {
-        User user1 = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.role);
-        User user2 = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.role);
+        User user1 = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.roles);
+        User user2 = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.roles);
 
         assertEquals(user1, user2);
     }
@@ -213,8 +182,8 @@ class CreateUserUseCaseImplTest {
     @Test
     @DisplayName("Compare diferents users")
     void compareDiferentsUsers() {
-        User user1 = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.role);
-        User user2 = new User(1L, new UserName("testes"), new Email("email@test.com"), new Password("Password1!"), this.role);
+        User user1 = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.roles);
+        User user2 = new User(1L, new UserName("testes"), new Email("email@test.com"), new Password("Password1!"), this.roles);
 
         assertNotEquals(user1, user2);
     }
@@ -222,14 +191,14 @@ class CreateUserUseCaseImplTest {
     @Test
     @DisplayName("Compare same object user")
     void compareSameObjectUser() {
-        User user = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.role);
+        User user = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.roles);
         assertEquals(user, user);
     }
 
     @Test
     @DisplayName("Compare diferents class object")
     void compareDiferentsClassObject() {
-        User user = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.role);
+        User user = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.roles);
 
         assertNotEquals("Some String", user);
     }
@@ -237,7 +206,7 @@ class CreateUserUseCaseImplTest {
     @Test
     @DisplayName("Hash code users")
     void hashCodeUsers() {
-        User user1 = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.role);
+        User user1 = new User(1L, new UserName("teste"), new Email("email@test.com"), new Password("Password1!"), this.roles);
 
         assertEquals(Objects.hash(user1.getId(), user1.getUsername(), user1.getEmail(), user1.getPassword(), user1.getRole()), user1.hashCode());
     }
