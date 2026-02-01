@@ -40,3 +40,8 @@ build/
 /target/
 .factorypath
 .DS_Store
+
+### Private files ###
+## no commit private an public keys files( app.key, app.pub)
+*.key
+*.pub
