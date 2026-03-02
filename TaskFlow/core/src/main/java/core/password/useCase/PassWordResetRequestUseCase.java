@@ -4,5 +4,5 @@ import core.user.domain.Email;
 
 public interface PassWordResetRequestUseCase {
 
-    Boolean passWordResetRequest(Email email);
+    void passWordResetRequest(Email email, String requestIP, String requestUserAgent);
 }

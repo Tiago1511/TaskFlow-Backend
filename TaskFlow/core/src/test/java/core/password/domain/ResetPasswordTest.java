@@ -38,9 +38,7 @@ class ResetPasswordTest {
         String otp = "otp456";
         String requestIP = "17.172.224.47";
         String requestUserAgent = "Mozilla/5.0";
-        Exception exception = assertThrows(TaskFlowCoreException.class, () -> {
-            new ResetPassword(invalidId, userID, resetToken, otp, requestIP, requestUserAgent);
-        });
+        Exception exception = assertThrows(TaskFlowCoreException.class, () -> new ResetPassword(invalidId, userID, resetToken, otp, requestIP, requestUserAgent));
         String expectedMessage = "ID is invalid";
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -54,9 +52,7 @@ class ResetPasswordTest {
         String otp = "otp456";
         String requestIP = "17.172.224.47";
         String requestUserAgent = "Mozilla/5.0";
-        Exception exception = assertThrows(TaskFlowCoreException.class, () -> {
-            new ResetPassword(id, userID, emptyToken, otp, requestIP, requestUserAgent);
-        });
+        Exception exception = assertThrows(TaskFlowCoreException.class, () -> new ResetPassword(id, userID, emptyToken, otp, requestIP, requestUserAgent));
 
         String expectedMessage = "Token is invalid";
         assertEquals(expectedMessage, exception.getMessage());
@@ -71,9 +67,8 @@ class ResetPasswordTest {
         String emptyOtp = "   ";
         String requestIP = "17.172.224.47";
         String requestUserAgent = "Mozilla/5.0";
-        Exception exception = assertThrows(TaskFlowCoreException.class, () -> {
-            new ResetPassword(id, userID, resetToken, emptyOtp, requestIP, requestUserAgent);
-        });
+        Exception exception = assertThrows(TaskFlowCoreException.class, () -> new ResetPassword(id, userID, resetToken, emptyOtp, requestIP, requestUserAgent));
+
         String expectedMessage = "OTP is invalid";
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -87,9 +82,7 @@ class ResetPasswordTest {
         String otp = "otp456";
         String requestIP = "";
         String requestUserAgent = "Mozilla/5.0";
-        Exception exception = assertThrows(TaskFlowCoreException.class, () -> {
-            new ResetPassword(id, userID, resetToken, otp, requestIP, requestUserAgent);
-        });
+        Exception exception = assertThrows(TaskFlowCoreException.class, () -> new ResetPassword(id, userID, resetToken, otp, requestIP, requestUserAgent));
         String expectedMessage = "Request IP is invalid";
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -103,9 +96,7 @@ class ResetPasswordTest {
         String otp = "otp456";
         String requestIP = "17.172.224.47";
         String requestUserAgent = "";
-        Exception exception = assertThrows(TaskFlowCoreException.class, () -> {
-            new ResetPassword(id, userID, resetToken, otp, requestIP, requestUserAgent);
-        });
+        Exception exception = assertThrows(TaskFlowCoreException.class, () -> new ResetPassword(id, userID, resetToken, otp, requestIP, requestUserAgent));
         String expectedMessage = "Request User Agent is invalid";
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -119,9 +110,7 @@ class ResetPasswordTest {
         String otp = "otp456";
         String requestIP = "17.172.224.47";
         String requestUserAgent = "Mozilla/5.0";
-        Exception exception = assertThrows(TaskFlowCoreException.class, () -> {
-            new ResetPassword(id, userID, resetToken, otp, requestIP, requestUserAgent);
-        });
+        Exception exception = assertThrows(TaskFlowCoreException.class, () -> new ResetPassword(id, userID, resetToken, otp, requestIP, requestUserAgent));
         String expectedMessage = "ID is invalid";
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -138,9 +127,7 @@ class ResetPasswordTest {
         String requestUserAgent = "Mozilla/5.0";
         String confirmUserAgent = "Mozilla/5.0";
         LocalDateTime requestDateTime = LocalDateTime.now();
-        Exception exception = assertThrows(TaskFlowCoreException.class, () -> {
-            new ResetPassword(id, userID, resetToken, otp, requestIP, confirmIP, requestUserAgent, confirmUserAgent, requestDateTime);
-        });
+        Exception exception = assertThrows(TaskFlowCoreException.class, () -> new ResetPassword(id, userID, resetToken, otp, requestIP, confirmIP, requestUserAgent, confirmUserAgent, requestDateTime));
         String expectedMessage = "Request IP is invalid";
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -157,9 +144,7 @@ class ResetPasswordTest {
         String requestUserAgent = "Mozilla/5.0";
         String confirmUserAgent = "";
         LocalDateTime requestDateTime = LocalDateTime.now();
-        Exception exception = assertThrows(TaskFlowCoreException.class, () -> {
-            new ResetPassword(id, userID, resetToken, otp, requestIP, confirmIP, requestUserAgent, confirmUserAgent, requestDateTime);
-        });
+        Exception exception = assertThrows(TaskFlowCoreException.class, () -> new ResetPassword(id, userID, resetToken, otp, requestIP, confirmIP, requestUserAgent, confirmUserAgent, requestDateTime));
         String expectedMessage = "Confirm User Agent is invalid";
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -175,10 +160,7 @@ class ResetPasswordTest {
         String confirmIP = "17.172.224.47";
         String requestUserAgent = "Mozilla/5.0";
         String confirmUserAgent = "Mozilla/5.0";
-        LocalDateTime requestDateTime = null;
-        Exception exception = assertThrows(TaskFlowCoreException.class, () -> {
-            new ResetPassword(id, userID, resetToken, otp, requestIP, confirmIP, requestUserAgent, confirmUserAgent, requestDateTime);
-        });
+        Exception exception = assertThrows(TaskFlowCoreException.class, () -> new ResetPassword(id, userID, resetToken, otp, requestIP, confirmIP, requestUserAgent, confirmUserAgent, null));
         String expectedMessage = "Confirm time cannot be before request time";
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -220,9 +202,7 @@ class ResetPasswordTest {
         String requestUserAgent = "Mozilla/5.0";
         String confirmUserAgent = "Mozilla/5.0";
         LocalDateTime requestDateTime = LocalDateTime.now().minusHours(3);
-        Exception exception = assertThrows(TaskFlowCoreException.class, () -> {
-            new ResetPassword(id, userID, resetToken, otp, requestIP, confirmIP, requestUserAgent, confirmUserAgent, requestDateTime);
-        });
+        Exception exception = assertThrows(TaskFlowCoreException.class, () -> new ResetPassword(id, userID, resetToken, otp, requestIP, confirmIP, requestUserAgent, confirmUserAgent, requestDateTime));
         String expectedMessage = "Confirm time cannot be before request time";
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -260,14 +240,10 @@ class ResetPasswordTest {
         String requestUserAgent = "Mozilla/5.0";
         String confirmUserAgent = "Mozilla/5.0";
         LocalDateTime requestDateTime = LocalDateTime.now();
-        Exception exceptionV4 = assertThrows(TaskFlowCoreException.class, () -> {
-            new ResetPassword(id, userID, resetToken, otp, invalidIPV4, invalidIPV4, requestUserAgent, confirmUserAgent, requestDateTime);
-        });
+        Exception exceptionV4 = assertThrows(TaskFlowCoreException.class, () -> new ResetPassword(id, userID, resetToken, otp, invalidIPV4, invalidIPV4, requestUserAgent, confirmUserAgent, requestDateTime));
         String expectedMessageV4 = "Request IP is invalid";
         assertEquals(expectedMessageV4, exceptionV4.getMessage());
-        Exception exceptionV6 = assertThrows(TaskFlowCoreException.class, () -> {
-            new ResetPassword(id, userID, resetToken, otp, invalidIPV6, invalidIPV6, requestUserAgent, confirmUserAgent, requestDateTime);
-        });
+        Exception exceptionV6 = assertThrows(TaskFlowCoreException.class, () -> new ResetPassword(id, userID, resetToken, otp, invalidIPV6, invalidIPV6, requestUserAgent, confirmUserAgent, requestDateTime));
         String expectedMessageV6 = "Request IP is invalid";
         assertEquals(expectedMessageV6, exceptionV6.getMessage());
     }

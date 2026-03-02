@@ -15,7 +15,8 @@ public class Password  {
     }
 
     private Password(String encodedPassword, boolean encoded) {
-        this.password = encodedPassword;
+        if (encoded)
+            this.password = encodedPassword;
     }
 
     public static Password fromEncoded(String encodedPassword) {

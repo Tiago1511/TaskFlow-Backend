@@ -1,10 +1,12 @@
 package com.event.TaskFlow.persistence.impl;
 
 import com.event.TaskFlow.persistence.converters.UserRepositoryConverter;
+import com.event.TaskFlow.persistence.entities.EmailEntity;
 import com.event.TaskFlow.persistence.entities.PasswordEntity;
 import com.event.TaskFlow.persistence.entities.UserEntity;
 import com.event.TaskFlow.persistence.repositories.UserRepository;
 import com.event.TaskFlow.shared.exception.TaskFlowException;
+import core.user.domain.Email;
 import core.user.domain.User;
 import core.user.ports.EncoderService;
 import core.user.ports.UserRepositoryService;
@@ -12,6 +14,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class UserServiceImpl implements UserRepositoryService {
 
@@ -46,5 +49,12 @@ public class UserServiceImpl implements UserRepositoryService {
         UserEntity userEntity = userRepository.save(userRepositoryConverter.mapToTable(user));
         return userRepositoryConverter.mapToEntity(userEntity);
 
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        Objects.requireNonNull(email, "Email cannot be null");
+        UserEntity userEntity = userRepository.findByEmail(new EmailEntity(email));
+        return Optional.ofNullable(userRepositoryConverter.mapToEntity(userEntity));
     }
 }

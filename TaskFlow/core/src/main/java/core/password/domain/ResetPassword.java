@@ -2,6 +2,7 @@ package core.password.domain;
 
 import core.shared.constants.CoreErrorCode;
 import core.shared.exception.TaskFlowCoreException;
+import core.user.domain.Password;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -38,6 +39,22 @@ public class ResetPassword {
      */
     public ResetPassword(Long id, Long userID, String resetToken, String otp, String requestIP, String requestUserAgent) {
         setId(id);
+        setUserID(userID);
+        setResetToken(resetToken);
+        setOtp(otp);
+        setRequestIP(requestIP);
+        setRequestUserAgent(requestUserAgent);
+    }
+
+    /**
+     * Constructor for request reset Password
+     * @param userID The user ID
+     * @param resetToken The reset token
+     * @param otp The one-time password
+     * @param requestIP The request IP address
+     * @param requestUserAgent The request user agent
+     */
+    public ResetPassword(Long userID, String resetToken, String otp, String requestIP, String requestUserAgent) {
         setUserID(userID);
         setResetToken(resetToken);
         setOtp(otp);
@@ -191,6 +208,10 @@ public class ResetPassword {
 
     private Boolean validateUserAgent(String userAgent) {
         return userAgent != null && !userAgent.isBlank() && userAgent.length() <= 255;
+    }
+
+    public static Boolean validateOTP(String otp) {
+        return otp != null && !otp.isBlank() && otp.length() == 6;
     }
 
     /**
