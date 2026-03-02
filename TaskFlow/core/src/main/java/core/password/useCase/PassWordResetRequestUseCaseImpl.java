@@ -1,6 +1,7 @@
 package core.password.useCase;
 
 import core.password.domain.ResetPassword;
+import core.password.ports.SendEmailService;
 import core.user.domain.Email;
 import core.user.domain.User;
 import core.user.ports.EncoderService;
@@ -13,10 +14,12 @@ public class PassWordResetRequestUseCaseImpl implements PassWordResetRequestUseC
 
     private final UserRepositoryService userRepositoryService;
     private final EncoderService encoderService;
+    private final SendEmailService sendEmailService;
 
-    public PassWordResetRequestUseCaseImpl ( UserRepositoryService userRepositoryService, EncoderService encoderService) {
+    public PassWordResetRequestUseCaseImpl (UserRepositoryService userRepositoryService, EncoderService encoderService, SendEmailService sendEmailService) {
         this.userRepositoryService = userRepositoryService;
         this.encoderService = encoderService;
+        this.sendEmailService = sendEmailService;
     }
 
     @Override
@@ -36,6 +39,8 @@ public class PassWordResetRequestUseCaseImpl implements PassWordResetRequestUseC
             ResetPassword resetPassword = new ResetPassword(user.get().getId(), resetToken, encoderService.encode(otp), requestIP, requestUserAgent);
 
             //TODO: Save resetPassword to repository and send email with resetToken and otp
+
+            sendEmailService.sendPasswordResetEmail(email.getEmail(), resetToken, otp);
 
         }
 
