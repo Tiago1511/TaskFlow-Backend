@@ -1,6 +1,8 @@
 package core.password.useCase;
 
 import core.password.domain.ResetPassword;
+import core.password.ports.EncodeDecodeBase64Service;
+import core.password.ports.PasswordResetService;
 import core.password.ports.SendEmailService;
 import core.user.domain.Email;
 import core.user.domain.User;
@@ -13,13 +15,15 @@ import java.util.UUID;
 public class PassWordResetRequestUseCaseImpl implements PassWordResetRequestUseCase {
 
     private final UserRepositoryService userRepositoryService;
-    private final EncoderService encoderService;
+    private final EncodeDecodeBase64Service encoderService;
     private final SendEmailService sendEmailService;
+    private final PasswordResetService passwordResetService;
 
-    public PassWordResetRequestUseCaseImpl (UserRepositoryService userRepositoryService, EncoderService encoderService, SendEmailService sendEmailService) {
+    public PassWordResetRequestUseCaseImpl (UserRepositoryService userRepositoryService, EncodeDecodeBase64Service encoderService, SendEmailService sendEmailService, PasswordResetService passwordResetService) {
         this.userRepositoryService = userRepositoryService;
         this.encoderService = encoderService;
         this.sendEmailService = sendEmailService;
+        this.passwordResetService = passwordResetService;
     }
 
     @Override
@@ -38,12 +42,10 @@ public class PassWordResetRequestUseCaseImpl implements PassWordResetRequestUseC
 
             ResetPassword resetPassword = new ResetPassword(user.get().getId(), resetToken, encoderService.encode(otp), requestIP, requestUserAgent);
 
-            //TODO: Save resetPassword to repository and send email with resetToken and otp
-
+            passwordResetService.saveResetPassword(resetPassword);
             sendEmailService.sendPasswordResetEmail(email.getEmail(), resetToken, otp);
 
         }
-
     }
 
     // Generate a 6-digit OTP

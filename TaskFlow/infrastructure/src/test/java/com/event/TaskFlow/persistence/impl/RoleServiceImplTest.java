@@ -1,9 +1,12 @@
 package com.event.TaskFlow.persistence.impl;
 
+import com.event.TaskFlow.api.role.impl.RoleControllerImpl;
 import com.event.TaskFlow.persistence.converters.RoleRepositoryConverter;
 import com.event.TaskFlow.persistence.entities.RoleEntity;
 import com.event.TaskFlow.persistence.repositories.RoleRepository;
 import core.role.domain.Role;
+import core.role.useCase.CreateRoleUseCaseImpl;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,9 +30,16 @@ class RoleServiceImplTest {
     @InjectMocks
     private RoleServiceImpl roleService;
 
+    private AutoCloseable mocks;
+
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
+    void setUp()  {
+        mocks = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        mocks.close();
     }
 
     @Test

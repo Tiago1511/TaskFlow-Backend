@@ -8,6 +8,7 @@ import core.role.domain.Role;
 import core.role.ports.RoleRepositoryService;
 import core.role.useCase.CreateRoleUseCase;
 import core.role.useCase.CreateRoleUseCaseImpl;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,11 +36,18 @@ class RoleControllerImplTestIntegration {
 
     private RoleControllerImpl roleControllerImpl;
 
+    private AutoCloseable mocks;
+
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    void setUp()  {
+        mocks = MockitoAnnotations.openMocks(this);
         createRoleUseCase = new CreateRoleUseCaseImpl(roleRepositoryService);
         roleControllerImpl = new RoleControllerImpl(createRoleUseCase, roleRestConverter);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        mocks.close();
     }
 
     // NOTE: Integration tests can be added here to test the interaction with the repository service.

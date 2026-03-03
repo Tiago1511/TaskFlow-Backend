@@ -1,14 +1,17 @@
 package com.event.TaskFlow.persistence.impl;
 
+import com.event.TaskFlow.api.role.impl.RoleControllerImpl;
 import com.event.TaskFlow.persistence.converters.UserRepositoryConverter;
 import com.event.TaskFlow.persistence.entities.*;
 import com.event.TaskFlow.persistence.repositories.UserRepository;
 import com.event.TaskFlow.shared.exception.TaskFlowException;
 import core.role.domain.Role;
+import core.role.useCase.CreateRoleUseCaseImpl;
 import core.user.domain.Email;
 import core.user.domain.Password;
 import core.user.domain.User;
 import core.user.domain.UserName;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,9 +37,16 @@ class UserServiceImplTest {
     @InjectMocks
     private UserServiceImpl userService;
 
+    private AutoCloseable mocks;
+
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
+    void setUp()  {
+        mocks = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        mocks.close();
     }
 
     @Test

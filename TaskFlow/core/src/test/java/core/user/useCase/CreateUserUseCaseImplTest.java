@@ -9,6 +9,7 @@ import core.user.domain.User;
 import core.user.domain.UserName;
 import core.user.ports.EncoderService;
 import core.user.ports.UserRepositoryService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,9 +38,16 @@ class CreateUserUseCaseImplTest {
 
     private final Role role = new Role(1L, "User", "Default user role");
 
+    private AutoCloseable mocks;
+
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
+    void setUp()  {
+        mocks = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        mocks.close();
     }
 
     // NOTE: Unit tests

@@ -9,6 +9,7 @@ import core.role.domain.Role;
 import core.role.useCase.CreateRoleUseCase;
 import core.shared.constants.CoreErrorCode;
 import core.shared.exception.TaskFlowCoreException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,9 +32,16 @@ class RoleControllerImplTest {
     private RoleControllerImpl roleControllerImpl;
 
 
+    private AutoCloseable mocks;
+
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
+    void setUp()  {
+        mocks = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        mocks.close();
     }
 
     // NOTE: Unit tests
