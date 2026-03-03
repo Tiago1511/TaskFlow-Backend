@@ -6,7 +6,6 @@ import core.password.ports.PasswordResetService;
 import core.password.ports.SendEmailService;
 import core.user.domain.Email;
 import core.user.domain.User;
-import core.user.ports.EncoderService;
 import core.user.ports.UserRepositoryService;
 
 import java.util.Optional;

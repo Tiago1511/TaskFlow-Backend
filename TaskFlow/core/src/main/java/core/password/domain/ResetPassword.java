@@ -2,7 +2,6 @@ package core.password.domain;
 
 import core.shared.constants.CoreErrorCode;
 import core.shared.exception.TaskFlowCoreException;
-import core.user.domain.Password;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
