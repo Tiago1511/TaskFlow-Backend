@@ -1,12 +1,10 @@
 package com.event.TaskFlow.persistence.impl;
 
-import com.event.TaskFlow.api.role.impl.RoleControllerImpl;
 import com.event.TaskFlow.persistence.converters.UserRepositoryConverter;
 import com.event.TaskFlow.persistence.entities.*;
 import com.event.TaskFlow.persistence.repositories.UserRepository;
 import com.event.TaskFlow.shared.exception.TaskFlowException;
 import core.role.domain.Role;
-import core.role.useCase.CreateRoleUseCaseImpl;
 import core.user.domain.Email;
 import core.user.domain.Password;
 import core.user.domain.User;
@@ -134,9 +132,7 @@ class UserServiceImplTest {
     @Test
     @DisplayName("Save User - Null User")
     void saveUser_NullUser() {
-        Exception exception = assertThrows(NullPointerException.class, () -> {
-            userService.saveUser(null);
-        });
+        Exception exception = assertThrows(NullPointerException.class, () -> userService.saveUser(null));
         assertEquals("User cannot be null", exception.getMessage());
         verify(userRepositoryConverter, never()).mapToTable(any());
         verify(userRepository, never()).save(any());

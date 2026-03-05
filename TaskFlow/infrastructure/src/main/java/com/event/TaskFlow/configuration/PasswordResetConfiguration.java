@@ -1,9 +1,12 @@
 package com.event.TaskFlow.configuration;
 
 import com.event.TaskFlow.email.SendEmailImpl;
+import com.event.TaskFlow.encoder.EncodeDecodeBase64Configuration;
+import com.event.TaskFlow.persistence.converters.PasswordResetRepositoryConverter;
 import com.event.TaskFlow.persistence.converters.RoleRepositoryConverter;
 import com.event.TaskFlow.persistence.impl.PasswordResetServiceImpl;
 import com.event.TaskFlow.persistence.impl.UserServiceImpl;
+import com.event.TaskFlow.persistence.repositories.PasswordResetRepository;
 import com.event.TaskFlow.persistence.repositories.UserRepository;
 import core.password.useCase.PassWordResetRequestUseCaseImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +20,17 @@ public class PasswordResetConfiguration {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordResetRepository passwordResetRepository;
+
     private final SendEmailImpl sendEmail = new SendEmailImpl();
     private final EncodeDecodeBase64Configuration encodeDecodeBase64 = new EncodeDecodeBase64Configuration();
+
+
+    @Bean(name = "passwordResetRepositoryConverter")
+    public PasswordResetRepositoryConverter passwordResetRepositoryConverter() {
+        return new PasswordResetRepositoryConverter();
+    }
 
     @Bean(name = "userRoleRepositoryConverterForPasswordReset")
     public RoleRepositoryConverter roleRepositoryConverter() {
@@ -27,7 +39,7 @@ public class PasswordResetConfiguration {
 
     @Bean
     public PasswordResetServiceImpl passwordResetService() {
-        return new PasswordResetServiceImpl();
+        return new PasswordResetServiceImpl(passwordResetRepository, passwordResetRepositoryConverter());
     }
 
     @Bean

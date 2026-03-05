@@ -62,7 +62,7 @@ public class ResetPassword {
     }
 
     /**
-     * Constructor for request reset Password
+     * Constructor for request reset Password and confirm reset Password
      *
      * @param id The reset password ID
      * @param userID The user ID
@@ -85,6 +85,63 @@ public class ResetPassword {
         setConfirmUserAgent(confirmUserAgent);
         this.requestAt = requestAt;
         setConfirmAt(LocalDateTime.now());
+        this.used = true;
+    }
+
+    /**
+     * Constructor for request reset Password
+     *
+     * @param id The reset password ID
+     * @param userID The user ID
+     * @param resetToken The reset token
+     * @param otp The one-time password
+     * @param requestIP The request IP address
+     * @param confirmIP The confirmation IP address
+     * @param requestUserAgent The request user agent
+     * @param confirmUserAgent The confirmation user agent
+     * @param used The used status
+     * @param requestAt The request time
+     * @param confirmAt The confirmation time
+     */
+    public ResetPassword(Long id, Long userID,String resetToken, String otp, String requestIP, String confirmIP, String requestUserAgent, String confirmUserAgent, Boolean used, LocalDateTime requestAt, LocalDateTime confirmAt) {
+        if(!used && confirmAt == null)
+            throw new TaskFlowCoreException("Confirm time cannot be null when used is true", CoreErrorCode.INVALID_DATA.getCode());
+        this.used = used;
+        this.requestAt = requestAt;
+        setId(id);
+        setUserID(userID);
+        setResetToken(resetToken);
+        setOtp(otp);
+        setRequestIP(requestIP);
+        setConfirmIP(confirmIP);
+        setRequestUserAgent(requestUserAgent);
+        setConfirmUserAgent(confirmUserAgent);
+
+        setConfirmAt(confirmAt);
+    }
+
+    /**
+     * Constructor for request reset Password
+     *
+     * @param id The reset password ID
+     * @param userID The user ID
+     * @param resetToken The reset token
+     * @param otp The one-time password
+     * @param requestIP The request IP address
+     * @param requestUserAgent The request user agent
+     * @param used The used status
+     * @param requestAt The request time
+     */
+    public ResetPassword(Long id, Long userID,String resetToken, String otp, String requestIP, String requestUserAgent, Boolean used, LocalDateTime requestAt) {
+        if (used)
+            throw new TaskFlowCoreException("Confirm time cannot be null when used is true", CoreErrorCode.INVALID_DATA.getCode());
+        setId(id);
+        setUserID(userID);
+        setResetToken(resetToken);
+        setOtp(otp);
+        setRequestIP(requestIP);
+        setRequestUserAgent(requestUserAgent);
+        this.requestAt = requestAt;
     }
 
     public Long getId() {

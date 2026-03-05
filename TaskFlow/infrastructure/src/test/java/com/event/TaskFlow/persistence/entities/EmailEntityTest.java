@@ -51,7 +51,8 @@ class EmailEntityTest {
     @DisplayName("Equals same object should return true")
     void testEqualsSameObject() {
         EmailEntity email = new EmailEntity("teste@gmail.com");
-        assertEquals(email, email);
+        EmailEntity email1 = new EmailEntity("teste@gmail.com");
+        assertEquals(email, email1);
     }
 
     @Test

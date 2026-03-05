@@ -1,11 +1,9 @@
 package com.event.TaskFlow.persistence.impl;
 
-import com.event.TaskFlow.api.role.impl.RoleControllerImpl;
 import com.event.TaskFlow.persistence.converters.RoleRepositoryConverter;
 import com.event.TaskFlow.persistence.entities.RoleEntity;
 import com.event.TaskFlow.persistence.repositories.RoleRepository;
 import core.role.domain.Role;
-import core.role.useCase.CreateRoleUseCaseImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -100,9 +98,7 @@ class RoleServiceImplTest {
     @Test
     @DisplayName("Save Role - Null Role")
     void saveRoleNull() {
-        assertThrows(NullPointerException.class, () -> {
-            roleService.saveRole(null);
-        });
+        assertThrows(NullPointerException.class, () -> roleService.saveRole(null));
 
         verify(roleRepositoryConverter, never()).mapToTable(any());
         verify(roleRepository, never()).save(any());

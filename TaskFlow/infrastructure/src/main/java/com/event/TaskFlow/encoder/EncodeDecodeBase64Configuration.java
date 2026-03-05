@@ -1,4 +1,4 @@
-package com.event.TaskFlow.configuration;
+package com.event.TaskFlow.encoder;
 
 import core.password.ports.EncodeDecodeBase64Service;
 

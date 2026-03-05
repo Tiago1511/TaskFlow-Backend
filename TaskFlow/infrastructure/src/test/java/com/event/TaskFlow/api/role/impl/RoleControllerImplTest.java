@@ -75,9 +75,7 @@ class RoleControllerImplTest {
         doThrow(new TaskFlowCoreException("This role already exists", CoreErrorCode.DATA_ALREADY_EXISTS.getCode()))
                 .when(createRoleUseCase).createRole(roleWithoutId);
 
-        DataAlreadyExistsException exception = assertThrows(DataAlreadyExistsException.class, () -> {
-            roleControllerImpl.createRole(roleRest);
-        });
+        DataAlreadyExistsException exception = assertThrows(DataAlreadyExistsException.class, () -> roleControllerImpl.createRole(roleRest));
 
         assertEquals("This role already exists", exception.getDetail());
     }
@@ -92,9 +90,7 @@ class RoleControllerImplTest {
         doThrow(new RuntimeException("Use case exception"))
                 .when(createRoleUseCase).createRole(roleWithoutId);
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            roleControllerImpl.createRole(roleRest);
-        });
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> roleControllerImpl.createRole(roleRest));
 
         assertEquals("Use case exception", exception.getMessage());
     }

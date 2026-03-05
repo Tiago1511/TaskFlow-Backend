@@ -6,6 +6,7 @@ import core.user.domain.Email;
 import core.user.domain.Password;
 import core.user.domain.User;
 import core.user.domain.UserName;
+import jakarta.validation.constraints.NotNull;
 
 public class UserRepositoryConverter implements RepositoryConverter<UserEntity, User> {
 
@@ -16,12 +17,12 @@ public class UserRepositoryConverter implements RepositoryConverter<UserEntity, 
     }
 
     @Override
-    public UserEntity mapToTable(final User persistenceObject) {
+    public UserEntity mapToTable(@NotNull final User persistenceObject) {
         return new UserEntity(persistenceObject.getId(), new UserNameEntity(persistenceObject.getUsername().getUserName()), new PasswordEntity(persistenceObject.getPassword().getPassword()), new EmailEntity(persistenceObject.getEmail().getEmail()), roleRepositoryConverter.mapToTable(persistenceObject.getRole()));
     }
 
     @Override
-    public User mapToEntity(final UserEntity entityObject) {
+    public User mapToEntity(@NotNull final UserEntity entityObject) {
         return new User(entityObject.getId(), new UserName(entityObject.getUsername().getUserName()), new Email(entityObject.getEmail().getEmail()), Password.fromEncoded(entityObject.getPassword().getPassword()), roleRepositoryConverter.mapToEntity(entityObject.getRole()));
     }
 }

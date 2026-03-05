@@ -151,4 +151,20 @@ public class RestExceptionHandler {
         return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.UNPROCESSABLE_ENTITY), ex.getTitle() + "/n" + ex.getDetail());
     }
 
+    /**
+     * Handles {@link NullPointerException}, which is thrown when an application attempts to use an object reference that has not been initialized (i.e., is null).
+     *
+     * <p>This can occur in various scenarios, such as when accessing a method or property of a null object, or when performing operations on null references.</p>
+     *
+     * <p>Returns an HTTP 500 (Internal Server Error) response with a generic error message indicating that an unexpected error occurred due to a null reference.</p>
+     *
+     * @param ex the {@link NullPointerException} thrown when a null reference is encountered
+     * @return a {@link TaskFlowResponse} indicating an internal server error with details about the null reference issue
+     */
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public TaskFlowResponse<Void> handleNullPointerException(NullPointerException ex) {
+        return new TaskFlowResponse<>(CommonConstants.ERROR, String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR), "An unexpected error occurred: Null reference encountered");
+    }
+
 }
